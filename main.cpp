@@ -151,7 +151,8 @@ void searchStudentById() {
     }
 }
 
-void updateStudentRecord() {
+void updateStudentRecord() 
+{
     cout << "\nUPDATE A STUDENT RECORD" << endl;
 
     string searchId;
@@ -159,70 +160,90 @@ void updateStudentRecord() {
     getline(cin, searchId);
 
     ifstream file("students.txt");
-    if (!file.is_open()) {
+    if (!file.is_open()) 
+    {
         cout << "Error opening file.\n";
         return;
     }
 
-    ofstream tempFile("temp.txt", ios::app);
-    if (!tempFile.is_open()) {
+    ofstream tempFile("temp.txt");
+    if (!tempFile.is_open()) 
+    {
         cout << "Error creating temporary file.\n";
         file.close();
         return;
     }
 
-    string line;
+    string nameLine, idLine, courseLine, yearLevelLine, finalGradeLine, separatorLine;
     bool found = false;
-    while (getline(file, line)) {
-        if (line.find("Student ID: " + searchId) != string::npos) {
+
+    while (getline(file, nameLine)) 
+    {
+        getline(file, idLine);
+        getline(file, courseLine);
+        getline(file, yearLevelLine);
+        getline(file, finalGradeLine);
+        getline(file, separatorLine);
+
+        if (idLine.find("Student ID: " + searchId) != string::npos) 
+        {
             found = true;
             cout << "\nStudent Record Found. Enter new details:\n";
 
             Student updatedStudent;
+
             cout << "Enter New Name (leave blank to keep current): ";
             getline(cin, updatedStudent.name);
+
             cout << "Enter New Course (leave blank to keep current): ";
             getline(cin, updatedStudent.course);
+
             cout << "Enter New Year Level (enter -1 to keep current): ";
             cin >> updatedStudent.yearLevel;
-            cin.ignore(); // To ignore remaining newline character
+            cin.ignore();
+
             cout << "Enter New Final Grade (enter -1 to keep current): ";
             cin >> updatedStudent.finalGrade;
-            cin.ignore(); // To ignore remaining newline character
+            cin.ignore();
 
-            // Write the updated record to the temp file
-            tempFile << "Name: " << (updatedStudent.name.empty() ? line.substr(6) : updatedStudent.name) << endl;
+            // Extract old data
+            string currentName = nameLine.substr(6); // After "Name: "
+            string currentCourse = courseLine.substr(8); // After "Course: "
+            int currentYearLevel = stoi(yearLevelLine.substr(12)); // After "Year Level: "
+            float currentFinalGrade = stof(finalGradeLine.substr(13)); // After "Final Grade: "
 
-            // Skip the next 4 lines (current record details)
-            for (int i = 0; i < 4; i++) {
-                getline(file, line);
-                if (i == 0) {
-                    tempFile << "Student ID: " << searchId << endl;
-                } else if (i == 1) {
-                    tempFile << "Course: " << (updatedStudent.course.empty() ? line.substr(8) : updatedStudent.course) << endl;
-                } else if (i == 2) {
-                    tempFile << "Year Level: " << (updatedStudent.yearLevel == -1 ? stoi(line.substr(12)) : updatedStudent.yearLevel) << endl;
-                } else if (i == 3) {
-                    tempFile << "Final Grade: " << (updatedStudent.finalGrade == -1 ? stof(line.substr(13)) : updatedStudent.finalGrade) << endl;
-                }
-            }
+            // Write updated info to temp file
+            tempFile << "Name: " << (updatedStudent.name.empty() ? currentName : updatedStudent.name) << endl;
+            tempFile << "Student ID: " << searchId << endl;
+            tempFile << "Course: " << (updatedStudent.course.empty() ? currentCourse : updatedStudent.course) << endl;
+            tempFile << "Year Level: " << (updatedStudent.yearLevel == -1 ? currentYearLevel : updatedStudent.yearLevel) << endl;
+            tempFile << "Final Grade: " << (updatedStudent.finalGrade == -1 ? currentFinalGrade : updatedStudent.finalGrade) << endl;
             tempFile << "----------------------------------------" << endl;
-        } else {
-            tempFile << line << endl;
+        }
+        else 
+        {
+            tempFile << nameLine << endl;
+            tempFile << idLine << endl;
+            tempFile << courseLine << endl;
+            tempFile << yearLevelLine << endl;
+            tempFile << finalGradeLine << endl;
+            tempFile << separatorLine << endl;
         }
     }
 
     file.close();
     tempFile.close();
 
-    if (found) {
-        // Replace the original file with the updated file
+    if (found) 
+    {
         remove("students.txt");
         rename("temp.txt", "students.txt");
         cout << "Record Updated Successfully!\n";
-    } else {
+    }
+    else 
+    {
         cout << "No record found for Student ID: " << searchId << endl;
-        remove("temp.txt"); // Delete temp file as no changes were made
+        remove("temp.txt"); // Delete temp file if no changes
     }
 }
 
