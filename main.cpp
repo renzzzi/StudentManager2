@@ -24,5 +24,6 @@ void displayMenu()
 int main()
 {
 
+    hello
     return 0;
 }
