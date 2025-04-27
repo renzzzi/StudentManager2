@@ -110,6 +110,42 @@ void viewRecords() {
     }
 }
 
+void searchStudentById() {
+    cout << "\nSEARCH A STUDENT RECORD BY STUDENT ID" << endl;
+
+    string searchId;
+    cout << "Enter Student ID to search: ";
+    getline(cin, searchId);
+
+    ifstream file("students.txt");
+    if (file.is_open()) {
+        string line;
+        bool found = false;
+        while (getline(file, line)) {
+            if (line.find("Student ID: " + searchId) != string::npos) {
+                found = true;
+                cout << "\n🎓 Student Record Found:\n";
+                cout << line << endl;
+
+                // Print the following lines (name, course, year level, final grade)
+                for (int i = 0; i < 4; i++) {
+                    if (getline(file, line)) {
+                        cout << line << endl;
+                    }
+                }
+                break;
+            }
+        }
+        file.close();
+
+        if (!found) {
+            cout << "❌ No record found for Student ID: " << searchId << endl;
+        }
+    } else {
+        cout << "❌ Error opening file.\n";
+    }
+}
+
 int main()
 {
     int choice;
@@ -128,7 +164,7 @@ int main()
                 viewRecords(); // Call the function to view all students
                 break;
             case 3:
-                // Search student
+                searchStudentById(); // Call the function to search a student by ID
                 break;
             case 4:
                 // Update student
