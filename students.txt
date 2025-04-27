@@ -1,0 +1,6 @@
+Name: enz
+Student ID: 01
+Course: BSCS
+Year Level: 1
+Final Grade: 1
+----------------------------------------

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;  // Added to avoid needing 'std::' before standard library functions
 
@@ -18,7 +19,7 @@ struct Student {
 void displayMenu()
 {
     cout << "----------------------------------------\n";
-    cout << "📋 Welcome to the Student Management System!\n";
+    cout << "Welcome to the Student Management System!\n";
     cout << "----------------------------------------\n";
     cout << "1. Add a student record\n";
     cout << "2. View all records\n";
@@ -56,7 +57,7 @@ void addStudent() {
 
         // Check for duplicate ID
         if (isDuplicateId(stud.studentId)) {
-            cout << "❌ The Student ID '" << stud.studentId << "' is already taken. Please enter a different ID: ";
+            cout << "The Student ID '" << stud.studentId << "' is already taken. Please enter a different ID: ";
         } else {
             break; // ID is unique, break out of the loop
         }
@@ -83,9 +84,9 @@ void addStudent() {
         file << "Final Grade: " << stud.finalGrade << endl;
         file << "----------------------------------------" << endl;  // Separator for readability
         file.close();
-        cout << "✅ Record Saved!" << endl;
+        cout << "Record Saved!" << endl;
     } else {
-        cout << "❌ Error opening file." << endl;
+        cout << " Error opening file." << endl;
     }
 }
 
@@ -103,10 +104,10 @@ void viewRecords() {
         file.close();
 
         if (!hasRecords) {
-            cout << "❌ No records found.\n";
+            cout << " No records found.\n";
         }
     } else {
-        cout << "❌ Error opening file.\n";
+        cout << " Error opening file.\n";
     }
 }
 
@@ -124,7 +125,7 @@ void searchStudentById() {
         while (getline(file, line)) {
             if (line.find("Student ID: " + searchId) != string::npos) {
                 found = true;
-                cout << "\n🎓 Student Record Found:\n";
+                cout << "\nStudent Record Found:\n";
                 cout << line << endl;
 
                 // Print the following lines (name, course, year level, final grade)
@@ -139,10 +140,10 @@ void searchStudentById() {
         file.close();
 
         if (!found) {
-            cout << "❌ No record found for Student ID: " << searchId << endl;
+            cout << "No record found for Student ID: " << searchId << endl;
         }
     } else {
-        cout << "❌ Error opening file.\n";
+        cout << "Error opening file.\n";
     }
 }
 
@@ -155,13 +156,13 @@ void updateStudentRecord() {
 
     ifstream file("students.txt");
     if (!file.is_open()) {
-        cout << "❌ Error opening file.\n";
+        cout << "Error opening file.\n";
         return;
     }
 
     ofstream tempFile("temp.txt", ios::app);
     if (!tempFile.is_open()) {
-        cout << "❌ Error creating temporary file.\n";
+        cout << "Error creating temporary file.\n";
         file.close();
         return;
     }
@@ -171,7 +172,7 @@ void updateStudentRecord() {
     while (getline(file, line)) {
         if (line.find("Student ID: " + searchId) != string::npos) {
             found = true;
-            cout << "\n🎓 Student Record Found. Enter new details:\n";
+            cout << "\nStudent Record Found. Enter new details:\n";
 
             Student updatedStudent;
             cout << "Enter New Name (leave blank to keep current): ";
@@ -214,9 +215,9 @@ void updateStudentRecord() {
         // Replace the original file with the updated file
         remove("students.txt");
         rename("temp.txt", "students.txt");
-        cout << "✅ Record Updated Successfully!\n";
+        cout << "Record Updated Successfully!\n";
     } else {
-        cout << "❌ No record found for Student ID: " << searchId << endl;
+        cout << "No record found for Student ID: " << searchId << endl;
         remove("temp.txt"); // Delete temp file as no changes were made
     }
 }
@@ -230,13 +231,13 @@ void deleteStudentRecord() {
 
     ifstream file("students.txt");
     if (!file.is_open()) {
-        cout << "❌ Error opening file.\n";
+        cout << "Error opening file.\n";
         return;
     }
 
     ofstream tempFile("temp.txt", ios::app);
     if (!tempFile.is_open()) {
-        cout << "❌ Error creating temporary file.\n";
+        cout << "Error creating temporary file.\n";
         file.close();
         return;
     }
@@ -246,7 +247,7 @@ void deleteStudentRecord() {
     while (getline(file, line)) {
         if (line.find("Student ID: " + searchId) != string::npos) {
             found = true;
-            cout << "\n✅ Student Record Found and Deleted:\n";
+            cout << "\nStudent Record Found and Deleted:\n";
             cout << line << endl;
 
             // Skip the next 4 lines (name, course, year level, final grade)
@@ -267,9 +268,9 @@ void deleteStudentRecord() {
         // Replace the original file with the updated file
         remove("students.txt");
         rename("temp.txt", "students.txt");
-        cout << "✅ Record Deleted Successfully!\n";
+        cout << "Record Deleted Successfully!\n";
     } else {
-        cout << "❌ No record found for Student ID: " << searchId << endl;
+        cout << "No record found for Student ID: " << searchId << endl;
         remove("temp.txt"); // Delete temp file as no changes were made
     }
 }
@@ -304,7 +305,7 @@ int main()
                 cout << "Goodbye! Exiting the program.....\n";
                 break;
             default:
-                cout << "\n❌ Oops! That's not a valid choice. Please try again.\n\n";
+                cout << "\nOops! That's not a valid choice. Please try again.\n\n";
         }
     } while (choice != 6);
     return 0;
