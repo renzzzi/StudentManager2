@@ -4,3 +4,15 @@ Course: BSCS
 Year Level: 1
 Final Grade: 1
 ----------------------------------------
+Name: elordf
+Student ID: 02
+Course: BSIT
+Year Level: 3
+Final Grade: 1
+----------------------------------------
+Name: Luis
+Student ID: 23
+Course: BSBS
+Year Level: 9
+Final Grade: 2
+----------------------------------------

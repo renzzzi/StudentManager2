@@ -48,7 +48,6 @@ void addStudent() {
 
     // Get student details
     cout << "Enter Student Name: ";
-    cin.ignore();  // Clear any leftover newline characters from previous input
     getline(cin, stud.name);
 
     cout << "Enter Student ID: ";
