@@ -113,13 +113,16 @@ int main()
             case 4:
                 // Update student
                 break;
-            case 5:
+
+                case 5:
+               //Deletw student
+                break;
+            case 6:
                 cout << "Goodbye! Exiting the program.....\n";
                 break;
             default:
                 cout << "\n❌ Oops! That's not a valid choice. Please try again.\n\n";
         }
-    } while (choice != 5);
-
+    } while (choice != 6);
     return 0;
 }
