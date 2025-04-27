@@ -89,6 +89,26 @@ void addStudent() {
     }
 }
 
+void viewRecords() {
+    cout << "\nVIEW ALL STUDENT RECORDS" << endl;
+
+    ifstream file("students.txt");
+    if (file.is_open()) {
+        string line;
+        bool hasRecords = false;  // To check if there are any records in the file
+        while (getline(file, line)) {
+            hasRecords = true;
+            cout << line << endl;
+        }
+        file.close();
+
+        if (!hasRecords) {
+            cout << "❌ No records found.\n";
+        }
+    } else {
+        cout << "❌ Error opening file.\n";
+    }
+}
 
 int main()
 {
@@ -105,7 +125,7 @@ int main()
                 addStudent(); // Call the function to add a student
                 break;
             case 2:
-                // View all students
+                viewRecords(); // Call the function to view all students
                 break;
             case 3:
                 // Search student
@@ -113,9 +133,8 @@ int main()
             case 4:
                 // Update student
                 break;
-
-                case 5:
-               //Deletw student
+            case 5:
+                // Delete student
                 break;
             case 6:
                 cout << "Goodbye! Exiting the program.....\n";
