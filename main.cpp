@@ -397,6 +397,8 @@ int main()
                 break;
             default:
                 cout << "\nOops! That's not a valid choice. Please try again.\n\n";
+                cin.clear();
+                cin.ignore();
         }
     } while (choice != 7);
     return 0;
