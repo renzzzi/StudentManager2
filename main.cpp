@@ -119,20 +119,25 @@ void searchStudentById() {
 
     ifstream file("students.txt");
     if (file.is_open()) {
-        string line;
+        string nameLine, idLine, courseLine, yearLevelLine, finalGradeLine, separatorLine;
         bool found = false;
-        while (getline(file, line)) {
-            if (line.find("Student ID: " + searchId) != string::npos) {
+
+        while (getline(file, nameLine)) {
+            getline(file, idLine);
+            getline(file, courseLine);
+            getline(file, yearLevelLine);
+            getline(file, finalGradeLine);
+            getline(file, separatorLine);  // Separator line
+
+            // Check if this student's ID matches
+            if (idLine.find("Student ID: " + searchId) != string::npos) {
                 found = true;
                 cout << "\nStudent Record Found:\n";
-                cout << line << endl;
-
-                // Print the following lines (name, course, year level, final grade)
-                for (int i = 0; i < 4; i++) {
-                    if (getline(file, line)) {
-                        cout << line << endl;
-                    }
-                }
+                cout << nameLine << endl;
+                cout << idLine << endl;
+                cout << courseLine << endl;
+                cout << yearLevelLine << endl;
+                cout << finalGradeLine << endl;
                 break;
             }
         }
