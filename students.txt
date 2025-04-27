@@ -1,13 +1,12 @@
-Name: enz
-Student ID: 01
+Name: Renz
+Student ID: 1
 Course: BSCS
-Year Level: 1
-Final Grade: 1
-----------------------------------------
-Name: elordf
-Student ID: 02
-Course: BSIT
-Year Level: 3
-Final Grade: 1
+Year Level: 2
+Final Grade: 4.25
 ----------------------------------------
 Name: Luis
+Student ID: 2
+Course: BSCS
+Year Level: 1
+Final Grade: 2.75
+----------------------------------------

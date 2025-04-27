@@ -23,10 +23,11 @@ void displayMenu()
     cout << "----------------------------------------\n";
     cout << "1. Add a student record\n";
     cout << "2. View all records\n";
-    cout << "3. Search a record by Student ID\n";
-    cout << "4. Update a record\n";
-    cout << "5. Delete a student record\n";  // Added delete option
-    cout << "6. Exit\n";
+    cout << "3. View all passing students record\n";
+    cout << "4. Search a record by Student ID\n";
+    cout << "5. Update a record\n";
+    cout << "6. Delete a student record\n";
+    cout << "7. Exit\n";
     cout << "----------------------------------------\n";
 }
 
@@ -109,6 +110,46 @@ void viewRecords() {
         cout << " Error opening file.\n";
     }
 }
+
+void viewPassingStudents() {
+    cout << "\nVIEW ALL PASSING STUDENT RECORDS" << endl;
+
+    ifstream file("students.txt");
+    if (file.is_open()) {
+        string line;
+        bool hasPassingStudents = false;
+
+        while (getline(file, line)) {
+            string nameLine = line;
+            string idLine, courseLine, yearLevelLine, finalGradeLine, separatorLine;
+
+            if (getline(file, idLine) && getline(file, courseLine) &&
+                getline(file, yearLevelLine) && getline(file, finalGradeLine) &&
+                getline(file, separatorLine)) {
+                float grade = stof(finalGradeLine.substr(13));
+
+                if (grade >= 1.00 && grade <= 3.00) {
+                    hasPassingStudents = true;
+                    cout << nameLine << endl;
+                    cout << idLine << endl;
+                    cout << courseLine << endl;
+                    cout << yearLevelLine << endl;
+                    cout << finalGradeLine << endl;
+                    cout << separatorLine << endl;
+                }
+            }
+        }
+        file.close();
+
+        if (!hasPassingStudents) {
+            cout << " No passing students found.\n";
+        }
+    } else {
+        cout << " Error opening file.\n";
+    }
+}
+
+
 
 void searchStudentById() {
     cout << "\nSEARCH A STUDENT RECORD BY STUDENT ID" << endl;
@@ -340,20 +381,23 @@ int main()
                 viewRecords(); // Call the function to view all students
                 break;
             case 3:
-                searchStudentById(); // Call the function to search a student by ID
+                viewPassingStudents(); // Call the function to view all students with a passing grade
                 break;
             case 4:
-                updateStudentRecord(); // Call the function to update a student's record
+                searchStudentById(); // Call the function to search a student by ID
                 break;
             case 5:
-                deleteStudentRecord(); // Call the function to delete a student's record
+                updateStudentRecord(); // Call the function to update a student's record
                 break;
             case 6:
+                deleteStudentRecord(); // Call the function to delete a student's record
+                break;
+            case 7:
                 cout << "Goodbye! Exiting the program.....\n";
                 break;
             default:
                 cout << "\nOops! That's not a valid choice. Please try again.\n\n";
         }
-    } while (choice != 6);
+    } while (choice != 7);
     return 0;
 }
