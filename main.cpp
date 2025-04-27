@@ -221,6 +221,59 @@ void updateStudentRecord() {
     }
 }
 
+void deleteStudentRecord() {
+    cout << "\nDELETE A STUDENT RECORD" << endl;
+
+    string searchId;
+    cout << "Enter Student ID to delete: ";
+    getline(cin, searchId);
+
+    ifstream file("students.txt");
+    if (!file.is_open()) {
+        cout << "❌ Error opening file.\n";
+        return;
+    }
+
+    ofstream tempFile("temp.txt", ios::app);
+    if (!tempFile.is_open()) {
+        cout << "❌ Error creating temporary file.\n";
+        file.close();
+        return;
+    }
+
+    string line;
+    bool found = false;
+    while (getline(file, line)) {
+        if (line.find("Student ID: " + searchId) != string::npos) {
+            found = true;
+            cout << "\n✅ Student Record Found and Deleted:\n";
+            cout << line << endl;
+
+            // Skip the next 4 lines (name, course, year level, final grade)
+            for (int i = 0; i < 4; i++) {
+                getline(file, line);
+            }
+            // Skip the separator line
+            getline(file, line);
+        } else {
+            tempFile << line << endl;
+        }
+    }
+
+    file.close();
+    tempFile.close();
+
+    if (found) {
+        // Replace the original file with the updated file
+        remove("students.txt");
+        rename("temp.txt", "students.txt");
+        cout << "✅ Record Deleted Successfully!\n";
+    } else {
+        cout << "❌ No record found for Student ID: " << searchId << endl;
+        remove("temp.txt"); // Delete temp file as no changes were made
+    }
+}
+
 int main()
 {
     int choice;
@@ -245,7 +298,7 @@ int main()
                 updateStudentRecord(); // Call the function to update a student's record
                 break;
             case 5:
-                // Delete student
+                deleteStudentRecord(); // Call the function to delete a student's record
                 break;
             case 6:
                 cout << "Goodbye! Exiting the program.....\n";
