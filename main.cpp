@@ -247,7 +247,8 @@ void updateStudentRecord()
     }
 }
 
-void deleteStudentRecord() {
+void deleteStudentRecord()
+{
     cout << "\nDELETE A STUDENT RECORD" << endl;
 
     string searchId;
@@ -255,50 +256,71 @@ void deleteStudentRecord() {
     getline(cin, searchId);
 
     ifstream file("students.txt");
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cout << "Error opening file.\n";
         return;
     }
 
-    ofstream tempFile("temp.txt", ios::app);
-    if (!tempFile.is_open()) {
+    ofstream tempFile("temp.txt");
+    if (!tempFile.is_open())
+    {
         cout << "Error creating temporary file.\n";
         file.close();
         return;
     }
 
-    string line;
+    string nameLine, idLine, courseLine, yearLevelLine, finalGradeLine, separatorLine;
     bool found = false;
-    while (getline(file, line)) {
-        if (line.find("Student ID: " + searchId) != string::npos) {
+
+    while (getline(file, nameLine))
+    {
+        getline(file, idLine);
+        getline(file, courseLine);
+        getline(file, yearLevelLine);
+        getline(file, finalGradeLine);
+        getline(file, separatorLine);
+
+        if (idLine.find("Student ID: " + searchId) != string::npos)
+        {
             found = true;
             cout << "\nStudent Record Found and Deleted:\n";
-            cout << line << endl;
-
-            // Skip the next 4 lines (name, course, year level, final grade)
-            for (int i = 0; i < 4; i++) {
-                getline(file, line);
-            }
-            // Skip the separator line
-            getline(file, line);
-        } else {
-            tempFile << line << endl;
+            cout << nameLine << endl;
+            cout << idLine << endl;
+            cout << courseLine << endl;
+            cout << yearLevelLine << endl;
+            cout << finalGradeLine << endl;
+            cout << separatorLine << endl;
+            // Do not write anything to tempFile — this deletes it!
+        }
+        else
+        {
+            // Write the whole record to temp file
+            tempFile << nameLine << endl;
+            tempFile << idLine << endl;
+            tempFile << courseLine << endl;
+            tempFile << yearLevelLine << endl;
+            tempFile << finalGradeLine << endl;
+            tempFile << separatorLine << endl;
         }
     }
 
     file.close();
     tempFile.close();
 
-    if (found) {
-        // Replace the original file with the updated file
+    if (found)
+    {
         remove("students.txt");
         rename("temp.txt", "students.txt");
         cout << "Record Deleted Successfully!\n";
-    } else {
+    }
+    else
+    {
         cout << "No record found for Student ID: " << searchId << endl;
-        remove("temp.txt"); // Delete temp file as no changes were made
+        remove("temp.txt"); // Clean up temp file if no deletion
     }
 }
+
 
 int main()
 {
